@@ -1,35 +1,53 @@
 package gya
 
 import (
-	"fmt"
 	"os"
 	"path/filepath"
 	"runtime"
 )
 
-func Init() {
+type GyaOption struct {
+	StartUpDirMod string // 启动目录模式
+}
 
-	exePath, err := os.Executable()
-	if err != nil {
-		fmt.Println("获取可执行文件路径失败:", err)
-		return
+var env string
+var basePath string
+var configPath string = "config"
+
+func Init(option GyaOption) {
+
+	// 确定目录
+	if option.StartUpDirMod == "EXEC" {
+		basePath = getExePath()
+	} else if option.StartUpDirMod == "Caller" {
+		basePath = getCallerPath()
+	} else {
+		basePath = getExePath()
 	}
 
+	// 加载配置
+	runConfig()
+}
+
+func getExePath() string {
+	exePath, err := os.Executable()
+	if err != nil {
+		return ""
+	}
 	// 获取当前可执行文件所在的目录
 	dir := filepath.Dir(exePath)
-	fmt.Println("当前文件所在目录:", dir)
+	return dir
+}
 
+func getCallerPath() string {
 	// 获取当前源文件的路径
 	_, filename, _, ok := runtime.Caller(0)
 	if !ok {
-		fmt.Println("获取源文件路径失败")
-		return
+		return ""
 	}
-
 	// 获取当前源文件所在的目录
-	dir = filepath.Dir(filename)
-	fmt.Println("当前源文件所在目录:", dir)
-
+	dir := filepath.Dir(filename)
+	return dir
 }
 
 func Run() {
