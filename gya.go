@@ -65,4 +65,5 @@ func getCallerPath() string {
 
 func Run() {
 
+	select {}
 }
