@@ -64,6 +64,5 @@ func getCallerPath() string {
 }
 
 func Run() {
-	basePath, _ := os.Getwd()
-	println(basePath)
+
 }
