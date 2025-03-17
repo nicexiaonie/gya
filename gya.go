@@ -18,15 +18,25 @@ func Init(option GyaOption) {
 
 	// 确定目录
 	if option.StartUpDirMod == "EXEC" {
+		// 当前可执行文件所在的目录
 		basePath = getExePath()
 	} else if option.StartUpDirMod == "Caller" {
+
 		basePath = getCallerPath()
+	} else if option.StartUpDirMod == "Current" {
+		// 当前目录
+		basePath = getCurrentPath()
 	} else {
-		basePath = getExePath()
+		basePath = getCurrentPath()
 	}
 
 	// 加载配置
 	runConfig()
+}
+
+func getCurrentPath() string {
+	exePath, _ := os.Getwd()
+	return exePath
 }
 
 func getExePath() string {
@@ -41,7 +51,7 @@ func getExePath() string {
 
 func getCallerPath() string {
 	// 获取当前源文件的路径
-	_, filename, _, ok := runtime.Caller(0)
+	_, filename, _, ok := runtime.Caller(2)
 	if !ok {
 		return ""
 	}
