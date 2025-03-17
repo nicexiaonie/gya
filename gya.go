@@ -14,6 +14,9 @@ var env string
 var basePath string
 var configPath string = "config"
 
+func init() {
+	println("-------------")
+}
 func Init(option GyaOption) {
 
 	// 确定目录
@@ -21,7 +24,7 @@ func Init(option GyaOption) {
 		// 当前可执行文件所在的目录
 		basePath = getExePath()
 	} else if option.StartUpDirMod == "Caller" {
-
+		// 源文件位置
 		basePath = getCallerPath()
 	} else if option.StartUpDirMod == "Current" {
 		// 当前目录
