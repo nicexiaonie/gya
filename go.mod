@@ -1,4 +1,4 @@
-module gya
+module github.com/nicexiaonie/gya
 
 go 1.24.0
 
